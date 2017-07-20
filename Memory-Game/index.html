@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memory Game</title>
+    <style>
+        /* Thank you to David Walsh's tutorial on CSS Flipping Animation: https://davidwalsh.name/css-flip */
+        .card-wrapper {
+            perspective: 1000px;
+            display: inline-block;
+            float: left;
+            margin: 10px;
+        }
+        .card-wrapper:nth-child(4n+1){
+            clear: left;
+        }
+        .card-wrapper.flip .card {
+            transform: rotateY(180deg);
+        }
+        .card-wrapper, .front, .back {
+            width: 100px;
+            height: 150px;
+        }
+        .card {
+            transition: 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .front, .back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .front {
+            z-index: 2;
+            transform: rotateY(0deg);
+            background-color: slategray;
+        }
+        .back {
+            transform: rotateY(180deg);
+            background-color: teal;
+        }
+        #alert-box {
+            font-family: sans-serif;
+            font-size: 18px;
+            padding: 10px;
+        }
+        /* Thank you Kameleon for the free icons: http://www.kameleon.pics/free-icons-pack.html */
+        #c1-1, #c1-2 { background-image: url('img/card1.jpg'); }
+        #c2-1, #c2-2 { background-image: url('img/card2.jpg'); }
+        #c3-1, #c3-2 { background-image: url('img/card3.jpg'); }
+        #c4-1, #c4-2 { background-image: url('img/card4.jpg'); }
+        #c5-1, #c5-2 { background-image: url('img/card5.jpg'); }
+        #c6-1, #c6-2 { background-image: url('img/card6.jpg'); }
+    </style>
+</head>
+<body>
+    <!-- alert textbox -->
+    <div id="alert-box">Click on any two cards.</div>
+
+    <!-- game board -->
+    <div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c1-1"></div></div></div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c2-1"></div></div></div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c3-1"></div></div></div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c4-1"></div></div></div>
+
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c5-1"></div></div></div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c6-1"></div></div></div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c1-2"></div></div></div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c2-2"></div></div></div>
+
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c3-2"></div></div></div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c4-2"></div></div></div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c5-2"></div></div></div>
+        <div class="card-wrapper"><div class="card"><div class="front"></div><div class="back" id="c6-2"></div></div></div>
+    </div>
+
+    <!-- stored choice -->
+    <input id="choice1" value="c0" style="display: none;"/>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+
+    // shuffle cards
+    var array = ['c1-1','c2-1','c3-1','c4-1','c5-1','c6-1','c1-2','c2-2','c3-2','c4-2','c5-2','c6-2'];
+
+    // Thanks StackOverflow answer here: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+    function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+        return array;
+    }
+
+    array = shuffleArray(array);
+
+    $.each($('.back'),function(i){
+        $(this).attr('id',array[i]);
+    });
+
+        $('#choice1').val('c0'); // reset stored choice
+
+$('.card-wrapper').on('click',function(){
+    // flip over
+    $(this).addClass('flip');
+
+    // get choices
+    var thisId = $(this).children('.card').children('.back').attr('id');
+    var prevId = $('#choice1').val();
+    var choice1 = Number(prevId.substring(1,2));
+    var choice2 = 0;
+
+    // compare choices
+    if (choice1 === 0){ // first choice
+        choice1 = Number(thisId.substring(1,2));
+        $('#choice1').val(thisId);
+    }
+    else if (thisId === prevId){
+        // same card selected twice
+        $('#alert-box').text("Please choose a second card.");
+    }
+    else if (choice2 === 0){ // second choice
+        choice2 = Number(thisId.substring(1,2));
+        // check if choices match
+        if (choice1 === choice2){
+            // wait a second, then hide matches
+            setTimeout(function(){
+                $('#alert-box').text("Match!");
+                $('#' + prevId).parent().css('visibility','hidden');
+                $('#' + thisId).parent().css('visibility','hidden');
+            }, 1250);
+        }
+        else {
+            // wait a second, then flip back over
+            setTimeout(function(){
+                $('#alert-box').text("No match, try again.");
+                $('.card-wrapper').removeClass('flip');
+            }, 1250);
+        }
+        $('#choice1').val('c0'); // reset stored choice
+    }
+});
+
+    </script>
+</body>
+</html>
