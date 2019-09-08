@@ -1,7 +1,7 @@
 (function ($) {
   // thanks: https://github.com/pisi/Metronome
 
-  var sound = new Audio("https://www.soundjay.com/switch/switch-1.wav");;
+  var sound = new Audio("audio/switch-1.mp3");;
   $("#enableSound").click(function() {
     sound.play();
   });
