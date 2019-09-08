@@ -12,6 +12,8 @@
   var highlightEnd = measures * subdivisions * timesignature;
 
   $('#btn-start').on('click', function () {
+    var sound = new Audio("https://www.soundjay.com/switch/switch-1.wav");
+    sound.load();
     var bpm = $('input[name="bpm"]').val() * subdivisions;
     var bps = bpm / 60;
     $.metronome.start(bps);
