@@ -1,7 +1,6 @@
 (function ($) {
   // thanks: https://github.com/pisi/Metronome
 
-  var sound = document.getElementById("audio");
   var counter = 0;
   var timesignature = 3;
   var subdivisions = 2;
@@ -12,8 +11,10 @@
   var highlightEnd = measures * subdivisions * timesignature;
 
   $('#btn-start').on('click', function () {
+    window.sounds = new Object();
     var sound = new Audio("https://www.soundjay.com/switch/switch-1.wav");
     sound.load();
+    window.sounds['switch.wav'] = sound;
     var bpm = $('input[name="bpm"]').val() * subdivisions;
     var bps = bpm / 60;
     $.metronome.start(bps);
@@ -41,7 +42,7 @@
 
   $(document).bind('tick', function(){
     if (counter % subdivisions == 0){
-      sound.play();
+      window.sounds['switch.wav'].play();
     }
     counter++;
     if (counter <= highlightEnd){ highlightNotes(); }
