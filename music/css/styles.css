@@ -1,0 +1,41 @@
+body {
+    color: #212529;
+    margin: 0;
+}
+.container {
+    padding: 24px;
+    max-width: 720px;
+}
+.controls {
+    margin-bottom: 40px;
+}
+input {
+    width: 50px;
+    font-size: 16px;
+    padding: 8px;
+}
+button {
+    padding: 10px 40px;
+    font-size: 16px;
+    background-color: #2C3E50;
+    border: none;
+    color: white;
+}
+.music {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
+.song-title {
+    text-align: center;
+}
+.keyhole {
+    background-color: #ecf0f1;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    width: 24px;
+    height: 96px;
+    position: absolute;
+    left: -24px;
+    top: 0;
+}
