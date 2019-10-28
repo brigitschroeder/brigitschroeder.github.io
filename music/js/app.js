@@ -11,7 +11,7 @@
   var $keyhole = $('.keyhole');
   var rowOffset = 0;
   var currentRowWidth = $('.music').width();
-  var measures = 39; // arirang = 17, moon-river = 29
+  var measures = 40; // arirang = 17, moon-river = 40
   var rowHeight = 160; // arirang = 96, moon-river = 160
   var highlightEnd = measures * subdivisions * timesignature;
 
