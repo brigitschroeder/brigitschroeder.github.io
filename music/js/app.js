@@ -11,7 +11,8 @@
   var $keyhole = $('.keyhole');
   var rowOffset = 0;
   var currentRowWidth = $('.music').width();
-  var measures = 17;
+  var measures = 39; // arirang = 17, moon-river = 29
+  var rowHeight = 160; // arirang = 96, moon-river = 160
   var highlightEnd = measures * subdivisions * timesignature;
 
   $('#btn-start').on('click', function () {
@@ -69,10 +70,10 @@
     else { // move to the next row
       rowOffset++;
       $keyhole.css({
-        'top': rowOffset*96,
+        'top': rowOffset * rowHeight,
         'left': 0,
         'backgroundPositionX': 0,
-        'backgroundPositionY': -rowOffset*96,
+        'backgroundPositionY': -rowOffset * rowHeight,
       });
     }
   }

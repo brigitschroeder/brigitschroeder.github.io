@@ -34,7 +34,7 @@ button {
     background-repeat: no-repeat;
     background-position: 0 0;
     width: 24px;
-    height: 96px;
+    height: 160px; /* arirang = 96, moon-river = 160 */
     position: absolute;
     left: -24px;
     top: 0;
